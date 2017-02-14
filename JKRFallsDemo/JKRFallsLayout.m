@@ -119,7 +119,7 @@ static const UIEdgeInsets JKRDefaultUIEdgeInsets = {10, 10, 10, 10};      ///< �
         self.columnHeights[destColumn + 1] = @(CGRectGetMaxY(attrs.frame));
     } else {
         // 正常cell的布局
-        if (_noneDoubleTime <= 3 || _lastFixIndex == destColumn) {                     // 如果没有放大次数小于3，就正常展示
+        if (_noneDoubleTime <= 3 || _lastFixIndex == destColumn) {                     // 如果没有放大次数小于3且当前列等于上次矫正的列，就不矫正
             attrs.frame = CGRectMake(x, y, w, h);
         } else if (self.columnHeights.count > destColumn + 1                         // 越界判断
             && y + h - [self.columnHeights[destColumn + 1] doubleValue] < w * 0.1) { // 当前cell填充后和上一列的高度偏差不超过cell最大高度的10%，就和下一列对齐
