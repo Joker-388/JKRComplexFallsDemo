@@ -12,6 +12,9 @@
 
 @property (nonatomic, strong) NSMutableArray<UICollectionViewLayoutAttributes *> *attrsArray; ///< 所有的cell的布局
 @property (nonatomic, strong) NSMutableArray *columnHeights;                                  ///< 每一列的高度
+@property (nonatomic, assign) NSInteger noneDoubleTime;                                       ///< 没有生成大尺寸次数
+@property (nonatomic, assign) NSInteger lastDoubleIndex;                                      ///< 最后一次大尺寸的列数
+@property (nonatomic, assign) NSInteger lastFixIndex;                                         ///< 最后一次对齐矫正列数
 
 - (CGFloat)columnCount;     ///< 列数
 - (CGFloat)columnMargin;    ///< 列边距
@@ -72,7 +75,8 @@ static const UIEdgeInsets JKRDefaultUIEdgeInsets = {10, 10, 10, 10};      ///< �
     CGFloat w = (collectionViewW - self.edgeInsets.left - self.edgeInsets.right -
                  self.columnMargin * (self.columnCount - 1)) / self.columnCount;
     // cell的高度
-    CGFloat h = w * 275 / 200;
+    NSUInteger randomOfHeight = arc4random() % 100;
+    CGFloat h = w * (randomOfHeight >= 50 ? 250 : 320) / 200;
     
     // cell应该拼接的列数
     NSInteger destColumn = 0;
@@ -99,10 +103,14 @@ static const UIEdgeInsets JKRDefaultUIEdgeInsets = {10, 10, 10, 10};      ///< �
     // 随机数，用来随机生成大尺寸cell
     NSUInteger randomOfWhetherDouble = arc4random() % 100;
     
-    // 如果cell不在最后一列 && cell随机判定要变大 && cell当前列数和cell当前列的下一列高度相等
-    if (destColumn < self.columnCount - 1
-        && randomOfWhetherDouble >= 45
-        && [self.columnHeights[destColumn] doubleValue] == [self.columnHeights[destColumn + 1] doubleValue]) {
+    // 判断是否放大
+    if (destColumn < self.columnCount - 1                               // 放大的列数不能是最后一列（最后一列方法超出屏幕）
+        && _noneDoubleTime >= 1                                         // 如果前个cell有放大就不放大，防止连续出现两个放大
+        && (randomOfWhetherDouble >= 45 || _noneDoubleTime >= 8)        // 45%几率可能放大，如果累计8次没有放大，那么满足放大条件就放大
+        && [self.columnHeights[destColumn] doubleValue] == [self.columnHeights[destColumn + 1] doubleValue] // 当前列的顶部和下一列的顶部要对齐
+        && _lastDoubleIndex != destColumn) {             // 最后一次放大的列不等当前列，防止出现连续两列出现放大不美观
+        _noneDoubleTime = 0;
+        _lastDoubleIndex = destColumn;
         // 重定义当前cell的布局:宽度*2,高度*2
         attrs.frame = CGRectMake(x, y, w * 2 + self.columnMargin, h * 2 + self.rowMargin);
         // 当前cell列的高度就是当前cell的最大Y值
@@ -111,9 +119,22 @@ static const UIEdgeInsets JKRDefaultUIEdgeInsets = {10, 10, 10, 10};      ///< �
         self.columnHeights[destColumn + 1] = @(CGRectGetMaxY(attrs.frame));
     } else {
         // 正常cell的布局
-        attrs.frame = CGRectMake(x, y, w, h);
+        if (_noneDoubleTime <= 3 || _lastFixIndex == destColumn) {                     // 如果没有放大次数小于3，就正常展示
+            attrs.frame = CGRectMake(x, y, w, h);
+        } else if (self.columnHeights.count > destColumn + 1                         // 越界判断
+            && y + h - [self.columnHeights[destColumn + 1] doubleValue] < w * 0.1) { // 当前cell填充后和上一列的高度偏差不超过cell最大高度的10%，就和下一列对齐
+            attrs.frame = CGRectMake(x, y, w, [self.columnHeights[destColumn + 1] doubleValue] - y);
+            _lastFixIndex = destColumn;
+        } else if (destColumn >= 1                                                   // 越界判断
+                   && y + h - [self.columnHeights[destColumn - 1] doubleValue] < w * 0.1) { // 当前cell填充后和上上列的高度偏差不超过cell最大高度的10%，就和下一列对齐
+            attrs.frame = CGRectMake(x, y, w, [self.columnHeights[destColumn - 1] doubleValue] - y);
+            _lastFixIndex = destColumn;
+        } else {
+            attrs.frame = CGRectMake(x, y, w, h);
+        }
         // 当前cell列的高度就是当前cell的最大Y值
         self.columnHeights[destColumn] = @(CGRectGetMaxY(attrs.frame));
+        _noneDoubleTime += 1;
     }
     // 返回计算获取的布局
     return attrs;
