@@ -16,7 +16,6 @@
 @interface ViewController ()<UICollectionViewDataSource, JKRFallsLayoutDelegate>
 
 @property (nonatomic, weak) UICollectionView *collectionView;
-
 @property (nonatomic, strong) NSMutableArray *shops;
 
 @end
@@ -32,8 +31,7 @@ static NSString *const ID = @"shop";
 }
 
 #pragma mark - 创建collectionView
-- (void)setupCollectionView
-{
+- (void)setupCollectionView {
     JKRFallsLayout *fallsLayout = [[JKRFallsLayout alloc] init];
     fallsLayout.delegate = self;
     UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:fallsLayout];
@@ -44,84 +42,98 @@ static NSString *const ID = @"shop";
 }
 
 #pragma mark - 创建上下拉刷新
-- (void)setupRefresh
-{
-    self.collectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewShops)];
+- (void)setupRefresh {
     self.collectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreShops)];
     self.collectionView.backgroundColor = [UIColor whiteColor];
     [self.collectionView.mj_header beginRefreshing];
 }
 
 #pragma mark - 加载下拉数据
-- (void)loadNewShops
-{
+- (void)loadNewShops {
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://www.easy-mock.com/mock/5cff89e36c54457798010709/shop/finderlist"]];
+    request.HTTPMethod = @"GET";
     __weak typeof(self) weakSelf = self;
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray *shops = [JKRShop mj_objectArrayWithFilename:@"1.plist"];
-        [weakSelf.shops removeAllObjects];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf.collectionView reloadData];
-            [weakSelf.shops addObjectsFromArray:shops];
-            [weakSelf.collectionView.mj_header endRefreshing];
-            [weakSelf.collectionView reloadData];
-        });
-    });
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (!error) {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+            [weakSelf.shops removeAllObjects];
+            [weakSelf.shops addObjectsFromArray:[JKRShop mj_objectArrayWithKeyValuesArray:dict[@"data"]]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.collectionView reloadData];
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.collectionView reloadData];
+            });
+        }
+    }];
+    [task resume];
 }
 
 #pragma mark - 加载上拉数据
-- (void)loadMoreShops
-{
+- (void)loadMoreShops {
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"https://www.easy-mock.com/mock/5cff89e36c54457798010709/shop/finderlist"]];
+    request.HTTPMethod = @"GET";
     __weak typeof(self) weakSelf = self;
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray *shops = [JKRShop mj_objectArrayWithFilename:@"1.plist"];
-        [weakSelf.shops addObjectsFromArray:shops];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf.collectionView.mj_footer endRefreshing];
-            [weakSelf.collectionView reloadData];
-        });
-    });
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (!error) {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+            [weakSelf.shops addObjectsFromArray:[JKRShop mj_objectArrayWithKeyValuesArray:dict[@"data"]]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.collectionView.mj_footer endRefreshing];
+                [weakSelf.collectionView reloadData];
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.collectionView.mj_header endRefreshing];
+                [weakSelf.collectionView reloadData];
+            });
+        }
+    }];
+    [task resume];
 }
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
 }
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
-    self.collectionView.mj_footer.hidden = self.shops.count == 0;
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.shops.count;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     JKRShopCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ID forIndexPath:indexPath];
-    if (self.shops && self.shops.count >= indexPath.item+1) cell.shop = self.shops[indexPath.item];
+    cell.shop = self.shops[indexPath.row];
     return cell;
 }
 
-- (CGFloat)columnMarginInFallsLayout:(JKRFallsLayout *)fallsLayout
-{
+- (CGFloat)columnMarginInFallsLayout:(JKRFallsLayout *)fallsLayout {
     return 5;
 }
 
-- (CGFloat)rowMarginInFallsLayout:(JKRFallsLayout *)fallsLayout
-{
+- (CGFloat)rowMarginInFallsLayout:(JKRFallsLayout *)fallsLayout {
     return 5;
 }
 
-- (CGFloat)columnCountInFallsLayout:(JKRFallsLayout *)fallsLayout
-{
+- (CGFloat)columnCountInFallsLayout:(JKRFallsLayout *)fallsLayout {
     return 4;
 }
 
-- (UIEdgeInsets)edgeInsetsInFallsLayout:(JKRFallsLayout *)fallsLayout
-{
-    return UIEdgeInsetsMake(20, 10, 20, 10);
+- (UIEdgeInsets)edgeInsetsInFallsLayout:(JKRFallsLayout *)fallsLayout {
+    return UIEdgeInsetsMake(10, 10, 10, 10);
 }
 
-- (NSMutableArray *)shops
-{
+- (JKRShop *)shopWithIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row < self.shops.count) {
+        return self.shops[indexPath.row];
+    } else {
+        return nil;
+    }
+}
+
+- (NSMutableArray *)shops {
     if (!_shops) {
         _shops = [NSMutableArray array];
     }

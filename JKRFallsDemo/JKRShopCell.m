@@ -20,13 +20,9 @@
 
 @implementation JKRShopCell
 
-- (void)setShop:(JKRShop *)shop
-{
+- (void)setShop:(JKRShop *)shop {
     _shop = shop;
-    
     [self.imageView sd_setImageWithURL:[NSURL URLWithString:shop.img] placeholderImage:[UIImage imageNamed:@"loading"]];
-    
-    self.priceLabel.text = shop.price;
 }
 
 @end

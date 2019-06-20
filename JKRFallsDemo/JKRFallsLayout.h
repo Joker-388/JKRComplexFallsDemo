@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JKRShop.h"
 @class JKRFallsLayout;
+
+// 每页图片数
+#define PageCount 48
 
 @protocol JKRFallsLayoutDelegate <NSObject>
 
@@ -20,6 +24,8 @@
 - (CGFloat)rowMarginInFallsLayout:(JKRFallsLayout *)fallsLayout;
 /// collectionView边距
 - (UIEdgeInsets)edgeInsetsInFallsLayout:(JKRFallsLayout *)fallsLayout;
+
+- (JKRShop *)shopWithIndexPath:(NSIndexPath *)indexPath;
 
 @end
 

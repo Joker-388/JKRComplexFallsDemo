@@ -11,6 +11,7 @@
 @interface JKRShop : NSObject
 
 @property (nonatomic, copy) NSString *img;       ///< 图片URL
-@property (nonatomic, copy) NSString *price;     ///< 价格
+@property (nonatomic, assign) CGFloat width;
+@property (nonatomic, assign) CGFloat height;
 
 @end
