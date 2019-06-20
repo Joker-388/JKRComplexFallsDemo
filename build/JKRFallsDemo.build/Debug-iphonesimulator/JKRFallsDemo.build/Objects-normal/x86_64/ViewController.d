@@ -2,7 +2,7 @@ dependencies: \
   /Users/joker/Documents/JKRComplexFallsDemo/JKRFallsDemo/ViewController.m \
   /Users/joker/Documents/JKRComplexFallsDemo/JKRFallsDemo/ViewController.h \
   /Users/joker/Documents/JKRComplexFallsDemo/JKRFallsDemo/JKRFallsLayout.h \
-  /Users/joker/Documents/JKRComplexFallsDemo/JKRFallsDemo/JKRShop.h \
+  /Users/joker/Documents/JKRComplexFallsDemo/JKRFallsDemo/JKRImageModel.h \
   /Users/joker/Documents/JKRComplexFallsDemo/Pods/Headers/Public/MJExtension/MJExtension.h \
   /Users/joker/Documents/JKRComplexFallsDemo/Pods/Headers/Public/MJExtension/NSObject+MJCoding.h \
   /Users/joker/Documents/JKRComplexFallsDemo/Pods/Headers/Public/MJExtension/MJExtensionConst.h \

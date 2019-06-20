@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "JKRShop.h"
+#import "JKRImageModel.h"
 @class JKRFallsLayout;
 
 // 每页图片数
@@ -24,8 +24,8 @@
 - (CGFloat)rowMarginInFallsLayout:(JKRFallsLayout *)fallsLayout;
 /// collectionView边距
 - (UIEdgeInsets)edgeInsetsInFallsLayout:(JKRFallsLayout *)fallsLayout;
-
-- (JKRShop *)shopWithIndexPath:(NSIndexPath *)indexPath;
+/// 返回图片模型
+- (JKRImageModel *)modelWithIndexPath:(NSIndexPath *)indexPath;
 
 @end
 

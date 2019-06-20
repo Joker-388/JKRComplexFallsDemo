@@ -34,13 +34,11 @@ static const UIEdgeInsets JKRDefaultUIEdgeInsets = {10, 10, 10, 10};      ///< �
 // collectionView 首次布局和之后重新布局的时候会调用
 // 并不是每次滑动都调用，只有在数据源变化的时候才调用
 
-- (void)prepareLayout
-{
+- (void)prepareLayout {
     // 重写必须调用super方法
     [super prepareLayout];
     
-    // 判断如果有50个cell（首次刷新），就重新计算
-    if ([self.collectionView numberOfItemsInSection:0] == PageCount) {
+    if ([self.collectionView numberOfItemsInSection:0] == PageCount && self.attrsArray.count > PageCount) {
         [self.attrsArray removeAllObjects];
         [self.columnHeights removeAllObjects];
     }
@@ -52,35 +50,28 @@ static const UIEdgeInsets JKRDefaultUIEdgeInsets = {10, 10, 10, 10};      ///< �
     }
     // 遍历所有的cell，计算所有cell的布局
     for (NSInteger i = self.attrsArray.count; i < [self.collectionView numberOfItemsInSection:0]; i++) {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:0];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
         // 计算布局属性并将结果添加到布局属性数组中
         [self.attrsArray addObject:[self layoutAttributesForItemAtIndexPath:indexPath]];
     }
 }
 
 // 返回布局属性，一个UICollectionViewLayoutAttributes对象数组
-- (NSArray<UICollectionViewLayoutAttributes *> *)layoutAttributesForElementsInRect:(CGRect)rect
-{
+- (NSArray<UICollectionViewLayoutAttributes *> *)layoutAttributesForElementsInRect:(CGRect)rect {
     return self.attrsArray;
 }
 
 // 计算布局属性
-- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewLayoutAttributes *attrs = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
-    
-    // collectionView的宽度
-    CGFloat collectionViewW = self.collectionView.frame.size.width;
     // cell的宽度
-    CGFloat w = (collectionViewW - self.edgeInsets.left - self.edgeInsets.right -
-                 self.columnMargin * (self.columnCount - 1)) / self.columnCount;
+    CGFloat w = (self.collectionView.frame.size.width - self.edgeInsets.left - self.edgeInsets.right - self.columnMargin * (self.columnCount - 1)) / self.columnCount;
     // cell的高度
-    JKRShop *shop = [self.delegate shopWithIndexPath:indexPath];
+    JKRImageModel*shop = [self.delegate modelWithIndexPath:indexPath];
     CGFloat h = shop.height / shop.width * w;
     
     // cell应该拼接的列数
     NSInteger destColumn = 0;
-    
     // 高度最小的列数高度
     CGFloat minColumnHeight = [self.columnHeights[0] doubleValue];
     // 获取高度最小的列数
@@ -100,11 +91,10 @@ static const UIEdgeInsets JKRDefaultUIEdgeInsets = {10, 10, 10, 10};      ///< �
         y += self.rowMargin;
     }
     
-    // 随机数，用来随机生成大尺寸cell
-    
     // 判断是否放大
     if (destColumn < self.columnCount - 1                               // 放大的列数不能是最后一列（最后一列方法超出屏幕）
         && _noneDoubleTime >= 1                                         // 如果前个cell有放大就不放大，防止连续出现两个放大
+        && arc4random() % 100 > 33                                      // 33%几率不放大
         && [self.columnHeights[destColumn] doubleValue] == [self.columnHeights[destColumn + 1] doubleValue] // 当前列的顶部和下一列的顶部要对齐
         && (_lastDoubleIndex != destColumn)                             // 最后一次放大的列不等当前列，防止出现连续两列出现放大不美观
         ) {
@@ -134,8 +124,7 @@ static const UIEdgeInsets JKRDefaultUIEdgeInsets = {10, 10, 10, 10};      ///< �
 }
 
 // 返回collectionView的ContentSize
-- (CGSize)collectionViewContentSize
-{
+- (CGSize)collectionViewContentSize {
     // collectionView的contentSize的高度等于所有列高度中最大的值
     CGFloat maxColumnHeight = [self.columnHeights[0] doubleValue];
     for (NSInteger i = 1; i < self.columnCount; i++) {
@@ -148,24 +137,21 @@ static const UIEdgeInsets JKRDefaultUIEdgeInsets = {10, 10, 10, 10};      ///< �
 }
 
 #pragma mark - 懒加载
-- (NSMutableArray *)attrsArray
-{
+- (NSMutableArray *)attrsArray {
     if (!_attrsArray) {
         _attrsArray = [NSMutableArray array];
     }
     return _attrsArray;
 }
 
-- (NSMutableArray *)columnHeights
-{
+- (NSMutableArray *)columnHeights {
     if (!_columnHeights) {
         _columnHeights = [NSMutableArray array];
     }
     return _columnHeights;
 }
 
-- (CGFloat)rowMargin
-{
+- (CGFloat)rowMargin {
     if ([self.delegate respondsToSelector:@selector(rowMarginInFallsLayout:)]) {
         return [self.delegate rowMarginInFallsLayout:self];
     } else {
@@ -173,8 +159,7 @@ static const UIEdgeInsets JKRDefaultUIEdgeInsets = {10, 10, 10, 10};      ///< �
     }
 }
 
-- (CGFloat)columnCount
-{
+- (CGFloat)columnCount {
     if ([self.delegate respondsToSelector:@selector(columnCountInFallsLayout:)]) {
         return [self.delegate columnCountInFallsLayout:self];
     } else {
@@ -182,8 +167,7 @@ static const UIEdgeInsets JKRDefaultUIEdgeInsets = {10, 10, 10, 10};      ///< �
     }
 }
 
-- (CGFloat)columnMargin
-{
+- (CGFloat)columnMargin {
     if ([self.delegate respondsToSelector:@selector(columnMarginInFallsLayout:)]) {
         return [self.delegate columnMarginInFallsLayout:self];
     } else {
@@ -191,8 +175,7 @@ static const UIEdgeInsets JKRDefaultUIEdgeInsets = {10, 10, 10, 10};      ///< �
     }
 }
 
-- (UIEdgeInsets)edgeInsets
-{
+- (UIEdgeInsets)edgeInsets {
     if ([self.delegate respondsToSelector:@selector(edgeInsetsInFallsLayout:)]) {
         return [self.delegate edgeInsetsInFallsLayout:self];
     } else {

@@ -15,9 +15,8 @@
 		050861611CA17FDB00A9B321 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0508615F1CA17FDB00A9B321 /* LaunchScreen.storyboard */; };
 		0508616C1CA17FDB00A9B321 /* JKRFallsDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0508616B1CA17FDB00A9B321 /* JKRFallsDemoTests.m */; };
 		050861771CA17FDB00A9B321 /* JKRFallsDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 050861761CA17FDB00A9B321 /* JKRFallsDemoUITests.m */; };
-		050861851CA1805200A9B321 /* 1.plist in Resources */ = {isa = PBXBuildFile; fileRef = 050861841CA1805200A9B321 /* 1.plist */; };
 		050861881CA1889000A9B321 /* JKRFallsLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 050861871CA1889000A9B321 /* JKRFallsLayout.m */; };
-		0508618B1CA18DD700A9B321 /* JKRShop.m in Sources */ = {isa = PBXBuildFile; fileRef = 0508618A1CA18DD700A9B321 /* JKRShop.m */; };
+		0508618B1CA18DD700A9B321 /* JKRImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0508618A1CA18DD700A9B321 /* JKRImageModel.m */; };
 		0508618F1CA18E4800A9B321 /* JKRShopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0508618D1CA18E4800A9B321 /* JKRShopCell.m */; };
 		050861901CA18E4800A9B321 /* JKRShopCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0508618E1CA18E4800A9B321 /* JKRShopCell.xib */; };
 		72BB62A959B904D7EE171892 /* libPods-JKRFallsDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0943F99082A90A0F102F268 /* libPods-JKRFallsDemo.a */; };
@@ -57,11 +56,10 @@
 		050861721CA17FDB00A9B321 /* JKRFallsDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JKRFallsDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		050861761CA17FDB00A9B321 /* JKRFallsDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JKRFallsDemoUITests.m; sourceTree = "<group>"; };
 		050861781CA17FDB00A9B321 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		050861841CA1805200A9B321 /* 1.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = 1.plist; sourceTree = "<group>"; };
 		050861861CA1889000A9B321 /* JKRFallsLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKRFallsLayout.h; sourceTree = "<group>"; };
 		050861871CA1889000A9B321 /* JKRFallsLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKRFallsLayout.m; sourceTree = "<group>"; };
-		050861891CA18DD700A9B321 /* JKRShop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKRShop.h; sourceTree = "<group>"; };
-		0508618A1CA18DD700A9B321 /* JKRShop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKRShop.m; sourceTree = "<group>"; };
+		050861891CA18DD700A9B321 /* JKRImageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKRImageModel.h; sourceTree = "<group>"; };
+		0508618A1CA18DD700A9B321 /* JKRImageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKRImageModel.m; sourceTree = "<group>"; };
 		0508618C1CA18E4800A9B321 /* JKRShopCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKRShopCell.h; sourceTree = "<group>"; };
 		0508618D1CA18E4800A9B321 /* JKRShopCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKRShopCell.m; sourceTree = "<group>"; };
 		0508618E1CA18E4800A9B321 /* JKRShopCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JKRShopCell.xib; sourceTree = "<group>"; };
@@ -128,13 +126,12 @@
 				050861861CA1889000A9B321 /* JKRFallsLayout.h */,
 				050861871CA1889000A9B321 /* JKRFallsLayout.m */,
 				0508615A1CA17FDB00A9B321 /* Main.storyboard */,
-				050861891CA18DD700A9B321 /* JKRShop.h */,
-				0508618A1CA18DD700A9B321 /* JKRShop.m */,
+				050861891CA18DD700A9B321 /* JKRImageModel.h */,
+				0508618A1CA18DD700A9B321 /* JKRImageModel.m */,
 				0508618C1CA18E4800A9B321 /* JKRShopCell.h */,
 				0508618D1CA18E4800A9B321 /* JKRShopCell.m */,
 				0508618E1CA18E4800A9B321 /* JKRShopCell.xib */,
 				0508615D1CA17FDB00A9B321 /* Assets.xcassets */,
-				050861841CA1805200A9B321 /* 1.plist */,
 				0508615F1CA17FDB00A9B321 /* LaunchScreen.storyboard */,
 				050861621CA17FDB00A9B321 /* Info.plist */,
 				050861511CA17FDB00A9B321 /* Supporting Files */,
@@ -182,7 +179,6 @@
 				663FE546EFA4CA29369DF3AB /* Pods-JKRFallsDemo.debug.xcconfig */,
 				A9E68C7ABA0B11600C54535F /* Pods-JKRFallsDemo.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -294,7 +290,6 @@
 				050861901CA18E4800A9B321 /* JKRShopCell.xib in Resources */,
 				050861611CA17FDB00A9B321 /* LaunchScreen.storyboard in Resources */,
 				0508615E1CA17FDB00A9B321 /* Assets.xcassets in Resources */,
-				050861851CA1805200A9B321 /* 1.plist in Resources */,
 				0508615C1CA17FDB00A9B321 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -365,7 +360,7 @@
 			files = (
 				050861591CA17FDB00A9B321 /* ViewController.m in Sources */,
 				050861561CA17FDB00A9B321 /* AppDelegate.m in Sources */,
-				0508618B1CA18DD700A9B321 /* JKRShop.m in Sources */,
+				0508618B1CA18DD700A9B321 /* JKRImageModel.m in Sources */,
 				050861881CA1889000A9B321 /* JKRFallsLayout.m in Sources */,
 				050861531CA17FDB00A9B321 /* main.m in Sources */,
 				0508618F1CA18E4800A9B321 /* JKRShopCell.m in Sources */,

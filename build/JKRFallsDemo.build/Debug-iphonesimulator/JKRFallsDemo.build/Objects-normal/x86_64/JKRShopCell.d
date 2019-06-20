@@ -1,7 +1,7 @@
 dependencies: \
   /Users/joker/Documents/JKRComplexFallsDemo/JKRFallsDemo/JKRShopCell.m \
   /Users/joker/Documents/JKRComplexFallsDemo/JKRFallsDemo/JKRShopCell.h \
-  /Users/joker/Documents/JKRComplexFallsDemo/JKRFallsDemo/JKRShop.h \
+  /Users/joker/Documents/JKRComplexFallsDemo/JKRFallsDemo/JKRImageModel.h \
   /Users/joker/Documents/JKRComplexFallsDemo/Pods/Headers/Public/SDWebImage/UIImageView+WebCache.h \
   /Users/joker/Documents/JKRComplexFallsDemo/Pods/Headers/Public/SDWebImage/SDWebImageCompat.h \
   /Users/joker/Documents/JKRComplexFallsDemo/Pods/Headers/Public/SDWebImage/SDWebImageManager.h \

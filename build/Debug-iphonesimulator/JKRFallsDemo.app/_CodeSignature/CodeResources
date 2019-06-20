@@ -4,10 +4,6 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>1.plist</key>
-		<data>
-		VGmW9NzaR3/HeiLBXkp2ocPexxg=
-		</data>
 		<key>Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib</key>
 		<data>
 		WJJH6zDAJjDLKBDzEK31P7Fd+Wc=
@@ -78,17 +74,6 @@
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>1.plist</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			VGmW9NzaR3/HeiLBXkp2ocPexxg=
-			</data>
-			<key>hash2</key>
-			<data>
-			6CV28WdHWvsOc9qfrgnAGWmASX9G33jcg+JUa+i7QTs=
-			</data>
-		</dict>
 		<key>Base.lproj/LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib</key>
 		<dict>
 			<key>hash</key>

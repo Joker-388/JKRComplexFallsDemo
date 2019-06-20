@@ -7,7 +7,7 @@
 //
 
 #import "JKRShopCell.h"
-#import "JKRShop.h"
+#import "JKRImageModel.h"
 #import <UIImageView+WebCache.h>
 
 @interface JKRShopCell ()
@@ -20,9 +20,9 @@
 
 @implementation JKRShopCell
 
-- (void)setShop:(JKRShop *)shop {
-    _shop = shop;
-    [self.imageView sd_setImageWithURL:[NSURL URLWithString:shop.img] placeholderImage:[UIImage imageNamed:@"loading"]];
+- (void)setModel:(JKRImageModel *)model {
+    _model = model;
+    [self.imageView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"loading"]];
 }
 
 @end

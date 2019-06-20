@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-@class JKRShop;
+@class JKRImageModel;
 
 @interface JKRShopCell : UICollectionViewCell
 
-@property (nonatomic, strong) JKRShop *shop;
+@property (nonatomic, strong) JKRImageModel *model;
 
 @end
