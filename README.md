@@ -4,6 +4,12 @@ JKRComplexFallsDemo
 [![preview](https://github.com/Joker-388/JKRComplexFallsDemo/blob/master/fall.gif)](http://www.jianshu.com/u/95d5ea0acd19)&nbsp;
 <br><br>
 
+利用UICollectionView实现一个随机放大的不规则瀑布流，图片宽高比和内容使用服务器接口返回的数据，效果如下图：
+
+
+
+![](https://user-gold-cdn.xitu.io/2019/6/21/16b7814099a6c5ad?w=2106&h=1388&f=png&s=4940043)
+
 接口：
 ```
 https://www.easy-mock.com/mock/5cff89e36c54457798010709/shop/finderlist
